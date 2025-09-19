@@ -50,13 +50,13 @@ jobs:
           echo "$SSH_KEY" > key.pem
           chmod 600 key.pem
           ssh -o StrictHostKeyChecking=no -i key.pem $SSH_USER@$SSH_HOST '
-            mkdir -p ~/public_html ~/node_app
+            mkdir -p ~/public_html ~/vmetke
           '
           scp -i key.pem -r frontend/dist/* $SSH_USER@$SSH_HOST:~/public_html/
-          scp -i key.pem -r backend/dist backend/prisma backend/package.json backend/.env $SSH_USER@$SSH_HOST:~/node_app/
+          scp -i key.pem -r backend/dist backend/prisma backend/package.json backend/.env $SSH_USER@$SSH_HOST:~/vmetke/
           ssh -i key.pem $SSH_USER@$SSH_HOST '
-            cd ~/node_app
-            npm ci --production
+            cd ~/vmetke
+            npm ci --omit=dev
             npx prisma generate
             pm2 restart vmetke-backend || pm2 start dist/app.js --name vmetke-backend
           '
