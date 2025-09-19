@@ -12,23 +12,34 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Setup Node.js for Frontend
         uses: actions/setup-node@v4
         with:
           node-version: '24'
           cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
 
       - name: Install Frontend Dependencies
-        run: cd frontend && npm ci
+        working-directory: ./frontend
+        run: npm ci
 
       - name: Build Frontend
-        run: cd frontend && npm run build
+        working-directory: ./frontend
+        run: npm run build
 
+      - name: Setup Node.js for Backend
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
       - name: Install Backend Dependencies
-        run: cd backend && npm ci
+        working-directory: ./backend
+        run: npm ci
 
       - name: Build Backend
-        run: cd backend && npm run build
+        working-directory: ./backend
+        run: npm run build
 
       - name: Deploy to Timeweb
         env:
@@ -38,16 +49,15 @@ jobs:
         run: |
           echo "$SSH_KEY" > key.pem
           chmod 600 key.pem
-          ssh -o StrictHostKeyChecking=no -i key.pem $SSH_USER@$SSH_HOST << 'EOF'
+          ssh -o StrictHostKeyChecking=no -i key.pem $SSH_USER@$SSH_HOST '
             mkdir -p ~/public_html ~/node_app
-            exit
-          EOF
+          '
           scp -i key.pem -r frontend/dist/* $SSH_USER@$SSH_HOST:~/public_html/
-          scp -i key.pem -r backend/dist/* backend/prisma backend/package.json backend/.env $SSH_USER@$SSH_HOST:~/node_app/
-          ssh -i key.pem $SSH_USER@$SSH_HOST << 'EOF'
+          scp -i key.pem -r backend/dist backend/prisma backend/package.json backend/.env $SSH_USER@$SSH_HOST:~/node_app/
+          ssh -i key.pem $SSH_USER@$SSH_HOST '
             cd ~/node_app
             npm ci --production
             npx prisma generate
             pm2 restart vmetke-backend || pm2 start dist/app.js --name vmetke-backend
-            exit
-          EOF
+          '
+          rm -f key.pem
