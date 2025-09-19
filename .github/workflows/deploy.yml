@@ -42,16 +42,6 @@ jobs:
         working-directory: ./backend
         run: npm run build
 
-      - name: Deploy Nginx Config
-        run: |
-          scp -i key.pem nginx/vmetke.conf $SSH_USER@$SSH_HOST:/tmp/vmetke.conf
-          ssh -i key.pem $SSH_USER@$SSH_HOST '
-            sudo mv /tmp/vmetke.conf /etc/nginx/sites-available/vmetke.conf
-            sudo ln -s /etc/nginx/sites-available/vmetke.conf /etc/nginx/sites-enabled/ || true
-            sudo nginx -t
-            sudo systemctl reload nginx
-          '
-
       - name: Deploy to Timeweb
         env:
           SSH_KEY: ${{ secrets.SSH_KEY }}
