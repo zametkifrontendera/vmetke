@@ -1,0 +1,42 @@
+.card {
+  background: white;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.author {
+  font-weight: 600;
+}
+
+.date {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.content {
+  margin-bottom: 12px;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.action {
+  background: none;
+  border: none;
+  color: #2563eb;
+  cursor: pointer;
+  font-size: 14px;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
