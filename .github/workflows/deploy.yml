@@ -55,7 +55,7 @@ jobs:
             sudo systemctl restart nginx || sudo systemctl start nginx
           '
           scp -i key.pem -r frontend/dist/* $SSH_USER@$SSH_HOST:/var/www/vmetke/public_html/
-          scp -i key.pem -r backend/dist backend/prisma backend/package.json backend/package-lock.json backend/.env $SSH_USER@$SSH_HOST:/var/www/vmetke/node_app/
+          scp -i key.pem -r backend/prisma backend/package.json backend/package-lock.json backend/.env $SSH_USER@$SSH_HOST:/var/www/vmetke/node_app/
           ssh -i key.pem $SSH_USER@$SSH_HOST '
             cd /var/www/vmetke/node_app
             ls -la  # Для отладки
