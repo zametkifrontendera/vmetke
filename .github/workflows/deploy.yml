@@ -40,7 +40,10 @@ jobs:
 
       - name: Build Backend
         working-directory: ./backend
-        run: npm run build
+        run: |
+          ls -l src  # Для отладки: проверить наличие src
+          npm run build
+          ls -l dist  # Для отладки: проверить создание dist
 
       - name: Deploy to Timeweb
         env:
