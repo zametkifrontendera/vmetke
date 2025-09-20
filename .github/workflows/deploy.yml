@@ -40,13 +40,7 @@ jobs:
 
       - name: Build Backend
         working-directory: ./backend
-        run: |
-          ls -l src  # Для отладки: проверить наличие src
-          cat src/app.ts  # Вывод содержимого app.ts для отладки
-          cat src/routes/index.ts  # Вывод содержимого index.ts
-          npm run build || { echo "Build failed"; cat tsconfig.json; exit 1; }  # Показать ошибку и tsconfig.json
-          ls -l dist  # Проверка создания dist
-          ls -l dist/routes  # Проверка содержимого dist/routes
+        run: npm run build
 
       - name: Deploy to Timeweb
         env:
