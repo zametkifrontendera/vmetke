@@ -1,8 +1,9 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
+import { User } from '../../entities/user/types'
 
 interface AppState {
-  user: { id: string; name: string; token: string } | null
+  user: (User & { token: string }) | null
   setUser: (user: AppState['user']) => void
 }
 

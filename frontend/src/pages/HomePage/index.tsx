@@ -1,10 +1,16 @@
+import { useEffect, useState } from 'react';
 import { Navigation } from '../../shared/ui/Navigation';
 import { PostCard } from '../../features/posts/ui/PostCard';
-import { usePosts } from '../../features/posts/model';
+import { fetchPosts } from '../../shared/api/posts';
+import { Post } from '../../entities/post/types';
 import styles from './styles.module.scss';
 
 export function HomePage() {
-  const posts = usePosts();
+  const [posts, setPosts] = useState<Post[]>([]);
+
+  useEffect(() => {
+    fetchPosts().then(setPosts);
+  }, []);
 
   return (
     <div className={styles.container}>

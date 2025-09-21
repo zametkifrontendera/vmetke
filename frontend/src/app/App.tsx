@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 import { HomePage } from '../pages/HomePage';
 import { AuthPage } from '../pages/AuthPage';
 import { RoutesEnum } from '../shared/config/routes';
@@ -20,6 +21,7 @@ export default function App() {
           element={!user ? <AuthPage /> : <Navigate to={RoutesEnum.HOME} />}
         />
       </Routes>
+      <Toaster position="top-right" />
     </BrowserRouter>
   );
 }
