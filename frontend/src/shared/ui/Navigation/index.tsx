@@ -19,7 +19,7 @@ export function Navigation() {
         </li>
         <li>
           <NavLink
-            to={RoutesEnum.AUTH}
+            to={RoutesEnum.PROFILE}
             className={({ isActive }) =>
               isActive ? styles.active : styles.link
             }

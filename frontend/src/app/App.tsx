@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { Toaster } from 'react-hot-toast';
 import { HomePage } from '../pages/HomePage';
 import { AuthPage } from '../pages/AuthPage';
+import { ProfilePage } from '../pages/ProfilePage';
 import { RoutesEnum } from '../shared/config/routes';
 import { useAppStore } from './store';
 import '../shared/lib/styles/globals.scss';
@@ -20,8 +20,11 @@ export default function App() {
           path={RoutesEnum.AUTH}
           element={!user ? <AuthPage /> : <Navigate to={RoutesEnum.HOME} />}
         />
+        <Route
+          path={RoutesEnum.PROFILE}
+          element={user ? <ProfilePage /> : <Navigate to={RoutesEnum.AUTH} />}
+        />
       </Routes>
-      <Toaster position="top-right" />
     </BrowserRouter>
   );
 }
