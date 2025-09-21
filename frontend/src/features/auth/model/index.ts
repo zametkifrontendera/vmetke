@@ -26,7 +26,7 @@ export function useAuth() {
     try {
       const res = await api.post<AuthResponse>('/auth/register', data)
       setUser({ ...res.data.user, token: res.data.token })
-      toast.success('Регистрация успешна 🎉')
+      toast.success('Регистрация успешна')
     } catch (err: any) {
       console.error('Register error:', err)
       toast.error(err.response?.data?.error || 'Ошибка регистрации')

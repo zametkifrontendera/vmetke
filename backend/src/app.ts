@@ -1,27 +1,16 @@
-import express from 'express'
-import dotenv from 'dotenv'
-import cors from 'cors'
-import routes from './routes/index.js'
+import express from "express";
+import dotenv from "dotenv";
+import cors from "cors";
+import routes from "./routes/index";
 
-dotenv.config()
+dotenv.config();
 
-const app = express()
-const PORT = process.env.PORT || 5000
+const app = express();
+const PORT = process.env.PORT || 5000;
 
-app.use(cors({ origin: 'https://vmetke.ru' }))
-app.use(express.json())
-app.use('/api', routes)
+app.use(cors({ origin: "https://vmetke.ru" }));
+app.use(express.json());
 
-console.log('Registered routes:')
-app._router.stack.forEach((r: any) => {
-  if (r.route && r.route.path) {
-    console.log(r.route.path, Object.keys(r.route.methods))
-  } else if (r.name === 'router') {
-    r.handle.stack.forEach((h: any) => {
-      console.log(h.route?.path, Object.keys(h.route?.methods || {}))
-    })
-  }
-})
+app.use("/api", routes);
 
-
-app.listen(PORT, () => console.log(`Server on port ${PORT}`))
+app.listen(PORT, () => console.log(`Server on port ${PORT}`));

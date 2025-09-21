@@ -9,9 +9,9 @@ export function PostCard({ post }: PostCardProps) {
   return (
     <div className={styles.card}>
       <div className={styles.header}>
-        <span className={styles.author}>{post.authorId}</span>
+        <span className={styles.author}>{post.author.name}</span>
         <span className={styles.date}>
-          {post.createdAt.toLocaleDateString()}
+          {new Date(post.createdAt).toLocaleDateString()}
         </span>
       </div>
       <p className={styles.content}>{post.content}</p>
