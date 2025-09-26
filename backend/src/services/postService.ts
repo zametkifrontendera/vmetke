@@ -13,5 +13,15 @@ export const postService = {
       orderBy: { createdAt: "desc" },
       include: { author: true }
     });
+  },
+
+  async updatePost(postId: string, authorId: string, content: string) {
+    const post = await prisma.post.findUnique({ where: { id: postId } });
+    if (!post || post.authorId !== authorId) return null;
+    return prisma.post.update({
+      where: { id: postId },
+      data: { content },
+      include: { author: true }
+    });
   }
 };

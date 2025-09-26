@@ -27,6 +27,26 @@ export function Navigation() {
             Профиль
           </NavLink>
         </li>
+        <li>
+          <NavLink
+            to={RoutesEnum.MESSAGES}
+            className={({ isActive }) =>
+              isActive ? styles.active : styles.link
+            }
+          >
+            Сообщения
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            to={RoutesEnum.FRIENDS}
+            className={({ isActive }) =>
+              isActive ? styles.active : styles.link
+            }
+          >
+            Друзья
+          </NavLink>
+        </li>
       </ul>
       <Button variant="secondary">Создать пост</Button>
     </nav>

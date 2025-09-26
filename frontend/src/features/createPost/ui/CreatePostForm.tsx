@@ -1,22 +1,17 @@
 import { useState } from 'react';
-import type { Post } from '../../../entities/post/types';
-import api from '../../../shared/lib/api';
+import { usePosts } from '../../posts/model/usePosts';
 
-interface Props {
-  onPostCreated: (post: Post) => void;
-}
-
-export function CreatePostForm({ onPostCreated }: Props) {
+export function CreatePostForm() {
   const [content, setContent] = useState('');
   const [loading, setLoading] = useState(false);
+  const { addPost } = usePosts();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!content.trim()) return;
     setLoading(true);
     try {
-      const res = await api.post<Post>('/posts', { content });
-      onPostCreated(res.data);
+      await addPost(content);
       setContent('');
     } catch (err) {
       // eslint-disable-next-line no-console

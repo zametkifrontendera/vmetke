@@ -13,8 +13,19 @@ model User {
   name      String
   password  String
   avatar    String?
+  bio       String?
   createdAt DateTime @default(now())
   posts     Post[]
+  
+  // Friends relationships
+  sentFriendRequests     FriendRequest[] @relation("FriendRequestSender")
+  receivedFriendRequests FriendRequest[] @relation("FriendRequestReceiver")
+  friendships1           Friendship[]    @relation("User1")
+  friendships2           Friendship[]    @relation("User2")
+  
+  // Messages
+  sentMessages     Message[] @relation("MessageSender")
+  receivedMessages Message[] @relation("MessageReceiver")
 }
 
 model Post {
@@ -24,4 +35,41 @@ model Post {
   createdAt DateTime @default(now())
   authorId  String
   author    User     @relation(fields: [authorId], references: [id])
+}
+
+model FriendRequest {
+  id        String   @id @default(cuid())
+  senderId  String
+  receiverId String
+  status    String   @default("pending") // pending, accepted, rejected
+  createdAt DateTime @default(now())
+  
+  sender   User @relation("FriendRequestSender", fields: [senderId], references: [id])
+  receiver User @relation("FriendRequestReceiver", fields: [receiverId], references: [id])
+  
+  @@unique([senderId, receiverId])
+}
+
+model Friendship {
+  id      String @id @default(cuid())
+  user1Id String
+  user2Id String
+  createdAt DateTime @default(now())
+  
+  user1 User @relation("User1", fields: [user1Id], references: [id])
+  user2 User @relation("User2", fields: [user2Id], references: [id])
+  
+  @@unique([user1Id, user2Id])
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  content   String
+  senderId  String
+  receiverId String
+  createdAt DateTime @default(now())
+  read      Boolean  @default(false)
+  
+  sender   User @relation("MessageSender", fields: [senderId], references: [id])
+  receiver User @relation("MessageReceiver", fields: [receiverId], references: [id])
 }
