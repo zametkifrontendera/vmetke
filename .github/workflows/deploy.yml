@@ -58,7 +58,6 @@ jobs:
           scp -i key.pem -r backend/dist backend/prisma backend/package.json backend/package-lock.json backend/.env $SSH_USER@$SSH_HOST:/var/www/vmetke/node_app/
           ssh -i key.pem $SSH_USER@$SSH_HOST '
             cd /var/www/vmetke/node_app
-            ls -la  # Для отладки
             npm ci --omit=dev
             npx prisma generate
             pm2 delete vmetke-backend || true
