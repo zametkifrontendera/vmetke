@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import authController from '../controllers/authController.js'
+import authController from '../controllers/authController'
 import postRoutes from './postRoutes'
 import userRoutes from './userRoutes'
 import friendRoutes from './friendRoutes'
