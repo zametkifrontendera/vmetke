@@ -21,9 +21,16 @@ const register = async (req: Request, res: Response) => {
 }
 
 const login = async (req: Request, res: Response) => {
-  const { email, password } = req.body
-  const { user, token } = await authService.login({ email, password })
-  res.json({ user, token })
+  try {
+    const { email, password } = req.body
+    const { user, token } = await authService.login({ email, password })
+    res.json({ user, token })
+  } catch (err: any) {
+    const message = err?.message || 'Login failed'
+    const isInvalidCreds = message.toLowerCase().includes('invalid')
+    console.error('❌ Login error:', err)
+    res.status(isInvalidCreds ? 401 : 500).json({ error: message })
+  }
 }
 
 export default { register, login }

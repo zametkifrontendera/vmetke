@@ -1,8 +1,11 @@
 import axios from 'axios'
 import { useAppStore } from '../../app/store'
 
+const resolvedBaseURL =
+  import.meta.env.VITE_API_BASE_URL || `${window.location.origin}/api`;
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || '/api',
+  baseURL: resolvedBaseURL,
   headers: { 'Content-Type': 'application/json' }
 })
 
